@@ -70,16 +70,24 @@
 
     send.disabled = true; say("Envoi en cours…");
     if (DEMO) {
-      // Aucune sauvegarde ici : on le dit clairement.
       setTimeout(function () {
         send.disabled = false;
         say("Mode démonstration : ton message n'a PAS été enregistré.", "err");
       }, 600);
       return;
     }
-    // Étape 4 : l'envoi réel vers Supabase sera ajouté ici.
-    send.disabled = false;
-    say("Connexion à Supabase pas encore activée (étape 4).", "err");
+    fetch(C.SUPABASE_URL + "/rest/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", apikey: C.SUPABASE_ANON_KEY, Prefer: "return=minimal" },
+      body: JSON.stringify({ nickname: nick || null, content: text })
+    }).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      try { localStorage.setItem("lastSend", String(Date.now())); } catch (x) {}
+      msg.value = ""; $("count").textContent = "0 / 500";
+      say("Merci ! Ton message est enregistré et apparaîtra après validation.", "ok");
+    }).catch(function () {
+      say("L'envoi a échoué. Vérifie ta connexion et réessaie dans un instant.", "err");
+    }).finally(function () { send.disabled = false; });
   });
 
   // --- Mur ---
@@ -94,7 +102,20 @@
         d.append(p, s); list.append(d);
       });
     } else {
-      $("wallNote").textContent = "Chargement depuis Supabase : étape 4.";
+      $("wallNote").textContent = "Chargement…";
+      fetch(C.SUPABASE_URL + "/rest/v1/messages?select=nickname,content,created_at&approved=eq.true&order=created_at.desc&limit=50",
+        { headers: { apikey: C.SUPABASE_ANON_KEY } })
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function (rows) {
+          $("wallNote").textContent = rows.length ? "" : "Aucun message pour l'instant. Sois le premier !";
+          rows.forEach(function (m) {
+            var d = document.createElement("div"); d.className = "item";
+            var p = document.createElement("p"); p.textContent = m.content;
+            var s = document.createElement("small"); s.textContent = m.nickname || "Anonyme";
+            d.append(p, s); list.append(d);
+          });
+        })
+        .catch(function () { $("wallNote").textContent = "Impossible de charger les messages. Réessaie plus tard."; });
     }
   }
 })();
