@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#000000">
+<title>Administration</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;500&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>.row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.row button{flex:1;border-radius:12px;padding:10px;font:600 14px Manrope,sans-serif;border:1px solid var(--line);background:var(--glass);color:var(--text);cursor:pointer}.row .ok{background:var(--gold);color:#000;border:0}.row .del{color:#e58b8b}.tag{font-size:12px;color:var(--mute)}.tabs{display:flex;gap:8px;margin-bottom:16px}.tabs button{flex:1;padding:10px;border-radius:12px;border:1px solid var(--line);background:none;color:var(--mute);font:inherit;cursor:pointer}.tabs .on{color:var(--gold);border-color:var(--gold)}</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+<main id="app" style="animation:none">
+  <a class="back" href="index.html" style="text-decoration:none;display:inline-block">‹ Accueil</a>
+  <h2>Administration</h2>
+
+  <form id="login" novalidate>
+    <label><span>Email</span><input id="email" type="email" autocomplete="username"></label>
+    <label><span>Mot de passe</span><input id="pass" type="password" autocomplete="current-password"></label>
+    <p id="lstatus" class="status" role="status"></p>
+    <button class="gold" type="submit">Se connecter</button>
+  </form>
+
+  <section id="panel" hidden>
+    <div class="tabs"><button id="t0" class="on">À valider</button><button id="t1">Approuvés</button></div>
+    <p id="note" class="sub"></p>
+    <div id="list" class="list"></div>
+    <div class="row"><button id="logout">Se déconnecter</button></div>
+  </section>
+</main>
+<script src="config.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
