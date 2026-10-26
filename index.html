@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>Mon site</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;500&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<section id="lock" tabindex="0" aria-label="Écran de verrouillage. Balaie vers le haut ou appuie sur Entrée.">
+  <div class="lock-top">
+    <div id="date"></div>
+    <div id="clock">00:00</div>
+  </div>
+  <div class="lock-hint"><i class="chev"></i><span>Balaie vers le haut</span></div>
+</section>
+
+<main id="app" hidden>
+  <div id="banner" class="banner" hidden>Mode démonstration : les messages ne sont pas enregistrés.</div>
+
+  <section class="view" id="home">
+    <h1 id="siteName"></h1>
+    <p id="tagline" class="sub"></p>
+    <div class="cards">
+      <button class="card" data-go="write"><span class="ico">✎</span><b>Laisser un message</b><small>Un mot, une idée, un bonjour.</small></button>
+      <button class="card" data-go="wall"><span class="ico">❝</span><b>Le mur</b><small>Les messages approuvés.</small></button>
+    </div>
+  </section>
+
+  <section class="view" id="write" hidden>
+    <button class="back" data-go="home">‹ Accueil</button>
+    <h2>Laisser un message</h2>
+    <form id="form" novalidate>
+      <label>Pseudonyme <em>(facultatif)</em>
+        <input id="nick" maxlength="24" autocomplete="nickname" placeholder="Anonyme">
+      </label>
+      <label>Message
+        <textarea id="msg" rows="5" maxlength="500" placeholder="Écris ici…"></textarea>
+        <span id="count" class="count">0 / 500</span>
+      </label>
+      <input id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="trap">
+      <p id="status" role="status" class="status"></p>
+      <button id="send" class="gold" type="submit">Envoyer</button>
+    </form>
+  </section>
+
+  <section class="view" id="wall" hidden>
+    <button class="back" data-go="home">‹ Accueil</button>
+    <h2>Le mur</h2>
+    <p id="wallNote" class="sub"></p>
+    <div id="list" class="list"></div>
+  </section>
+</main>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
