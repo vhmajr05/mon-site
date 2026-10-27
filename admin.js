@@ -29,15 +29,18 @@
     }).catch(function () { s.className = "status err"; s.textContent = "Email ou mot de passe incorrect."; });
   });
   $("logout").onclick = logout;
-  $("t0").onclick = function () { tab = 0; $("t0").className = "on"; $("t1").className = ""; load(); };
-  $("t1").onclick = function () { tab = 1; $("t1").className = "on"; $("t0").className = ""; load(); };
+  ["t0", "t1", "t2"].forEach(function (id, i) {
+    $(id).onclick = function () { tab = i; ["t0", "t1", "t2"].forEach(function (t) { $(t).className = ""; }); $(id).className = "on"; load(); };
+  });
+  var FILTER = ["approved=eq.false&removed=eq.false", "approved=eq.true", "approved=eq.false&removed=eq.true"];
+  var EMPTY = ["Rien à valider pour l'instant.", "Aucun message publié.", "Aucun message retiré."];
 
   function btn(label, cls, fn) { var b = document.createElement("button"); b.textContent = label; b.className = cls; b.onclick = fn; return b; }
 
   function load() {
     var list = $("list"); list.textContent = ""; $("note").textContent = "Chargement…";
-    api("/rest/v1/messages?select=*&approved=eq." + (tab === 1) + "&order=created_at.desc&limit=100").then(function (rows) {
-      $("note").textContent = rows.length ? "" : (tab ? "Aucun message approuvé." : "Rien à valider pour l'instant.");
+    api("/rest/v1/messages?select=*&" + FILTER[tab] + "&order=created_at.desc&limit=100").then(function (rows) {
+      $("note").textContent = rows.length ? "" : EMPTY[tab];
       rows.forEach(function (m) {
         var d = document.createElement("div"); d.className = "item";
         var p = document.createElement("p"); p.textContent = m.content;
@@ -45,8 +48,9 @@
         t.textContent = (m.nickname || "Anonyme") + " · " + new Date(m.created_at).toLocaleString("fr-FR");
         var row = document.createElement("div"); row.className = "row";
         row.append(
-          btn(tab ? "Retirer du mur" : "Approuver", tab ? "" : "ok", function () {
-            api("/rest/v1/messages?id=eq." + m.id, { method: "PATCH", body: JSON.stringify({ approved: !tab }), headers: { Prefer: "return=minimal" } }).then(load).catch(fail);
+          btn(["Approuver", "Retirer du mur", "Republier"][tab], tab === 1 ? "" : "ok", function () {
+            var body = tab === 1 ? { approved: false, removed: true } : { approved: true, removed: false };
+            api("/rest/v1/messages?id=eq." + m.id, { method: "PATCH", body: JSON.stringify(body), headers: { Prefer: "return=minimal" } }).then(load).catch(fail);
           }),
           btn("Supprimer", "del", function () {
             if (confirm("Supprimer définitivement ce message ?")) api("/rest/v1/messages?id=eq." + m.id, { method: "DELETE" }).then(load).catch(fail);

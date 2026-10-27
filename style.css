@@ -40,3 +40,4 @@ input:focus,textarea:focus,#lock:focus-visible,button:focus-visible{outline:2px 
 .list{display:grid;gap:12px}
 .item{padding:16px}.item p{white-space:pre-wrap;overflow-wrap:anywhere}.item small{color:var(--gold);display:block;margin-top:8px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.adm{margin-top:40px;text-align:center;font-size:12px}.adm a{color:var(--mute);opacity:.45;text-decoration:none}

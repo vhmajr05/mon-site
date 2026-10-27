@@ -8,7 +8,7 @@
 <title>Administration</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;500&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<style>.row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.row button{flex:1;border-radius:12px;padding:10px;font:600 14px Manrope,sans-serif;border:1px solid var(--line);background:var(--glass);color:var(--text);cursor:pointer}.row .ok{background:var(--gold);color:#000;border:0}.row .del{color:#e58b8b}.tag{font-size:12px;color:var(--mute)}.tabs{display:flex;gap:8px;margin-bottom:16px}.tabs button{flex:1;padding:10px;border-radius:12px;border:1px solid var(--line);background:none;color:var(--mute);font:inherit;cursor:pointer}.tabs .on{color:var(--gold);border-color:var(--gold)}</style>
+<style>.row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.row button{flex:1;border-radius:12px;padding:10px;font:600 14px Manrope,sans-serif;border:1px solid var(--line);background:var(--glass);color:var(--text);cursor:pointer}.row .ok{background:var(--gold);color:#000;border:0}.row .del{color:#e58b8b}.tag{font-size:12px;color:var(--mute)}.tabs{display:flex;gap:8px;margin-bottom:16px}.tabs button{flex:1;padding:10px 4px;font-size:14px;border-radius:12px;border:1px solid var(--line);background:none;color:var(--mute);font:inherit;cursor:pointer}.tabs .on{color:var(--gold);border-color:var(--gold)}</style>
 </head>
 <body>
 <div class="glow" aria-hidden="true"></div>
@@ -24,7 +24,7 @@
   </form>
 
   <section id="panel" hidden>
-    <div class="tabs"><button id="t0" class="on">À valider</button><button id="t1">Approuvés</button></div>
+    <div class="tabs"><button id="t0" class="on">À valider</button><button id="t1">Publiés</button><button id="t2">Retirés</button></div>
     <p id="note" class="sub"></p>
     <div id="list" class="list"></div>
     <div class="row"><button id="logout">Se déconnecter</button></div>
